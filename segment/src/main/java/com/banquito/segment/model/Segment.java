@@ -1,23 +1,28 @@
 package com.banquito.segment.model;
 
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Version;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 @Data
-@NoArgsConstructor
-@Document(collection = "segment")
+@Builder
+@Document(collection = "segments")
 
 public class Segment {
     @Id
     private String id;
 
+    @Indexed(unique = true)
     @Field(value = "name")
     private String name;
 
     @Field(value = "status")
-    private String status;
+    private Boolean status;
 
+    @Version
+    private Long version;
 }

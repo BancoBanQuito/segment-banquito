@@ -30,6 +30,17 @@ public class SegmentController {
     }
 
     //buscar por nombre
+    /* @GetMapping(value = "/{name}")
+    public ResponseEntity<SegmentRS> getSegmentByName(@PathVariable("name") String name) {
+        Segment segment = this.segmentService.findByName(name);
+        if (segment != null) {
+            return ResponseEntity.ok(SegmentMapper.toSegmentRS(segment));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    } */
+
+    //buscar por nombre
     @GetMapping(value = "/{name}")
     public ResponseEntity<SegmentRS> getSegmentByName(@PathVariable("name") String name) {
         Segment segment = this.segmentService.findByName(name);
@@ -47,22 +58,11 @@ public class SegmentController {
         return ResponseEntity.ok((List<Segment>) segment);
     }
 
-    //buscar por status
-    @GetMapping(value = "/status/{status}")
-    public ResponseEntity<SegmentRS> getSegmentByStatus(@PathVariable("status") String status) {
-        Segment segment = this.segmentService.findByStatus(status);
-        if (segment != null) {
-            return ResponseEntity.ok(SegmentMapper.toSegmentRS(segment));
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    //crear segmento
+    //CREAR SEGMENTO BUSCANDO POR IDSEGMENT
     @PostMapping
-    public ResponseEntity<String> createSegment(@RequestBody SegmentRQ segmentRQ) {
+    public ResponseEntity<String> createSegmentByIdSegment(@RequestBody SegmentRQ segmentRQ) {
         try {
-            this.segmentService.createSegment(SegmentMapper.toSegment(segmentRQ));
+            this.segmentService.createSegmentByIdSegment(SegmentMapper.toSegment(segmentRQ));
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             System.out.println(e);

@@ -13,10 +13,12 @@ public interface SegmentRepository extends MongoRepository<Segment, String>{
 
     Segment findByName(String name);
 
-    Optional<Segment> findByStatus(String status);
-
     List<Segment> findAll();
 
     Boolean existsByName(String name);
+
+    Segment findByIdSegment(String idSegment);
+
+    Boolean existsByIdSegment(String idSegment);
 
 }

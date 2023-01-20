@@ -10,6 +10,7 @@ import lombok.Data;
 public class SegmentRS implements Serializable{
 
         private String id;
+        private String idSegment;
         private String name;
         private String status;
 }

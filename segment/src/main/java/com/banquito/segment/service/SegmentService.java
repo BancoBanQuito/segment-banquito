@@ -5,7 +5,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.banquito.segment.model.Segment;
 import com.banquito.segment.repository.SegmentRepository;
-import com.fasterxml.jackson.core.sym.Name;
 
 @Service
 public class SegmentService {
@@ -24,12 +23,6 @@ public class SegmentService {
         return this.segmentRepository.findByName(name);
     }
 
-    //buscar por Optional<Segment> findByStatus(String status)
-    public Segment findByStatus(String status) {
-        Segment optSegment = this.segmentRepository.findByStatus(status).orElseThrow(() -> new RuntimeException("Segment not found"));
-        return optSegment;
-    }
-
     //buscar todos los segmentos
     public Iterable<Segment> findAll() {
         return this.segmentRepository.findAll();
@@ -42,6 +35,18 @@ public class SegmentService {
         if(segmentExists){
             throw new RuntimeException("Segment already exists");
         }
+        segment.setName(segment.getName());
+        segment.setStatus(segment.getStatus());
+        this.segmentRepository.save(segment);
+    }
+
+    //crear segmento por idSegmento
+    public void createSegmentByIdSegment(Segment segment){
+        Boolean segmentExists = this.segmentRepository.existsByIdSegment(segment.getIdSegment());
+        if(segmentExists){
+            throw new RuntimeException("Segment already exists");
+        }
+        segment.setIdSegment(segment.getIdSegment());
         segment.setName(segment.getName());
         segment.setStatus(segment.getStatus());
         this.segmentRepository.save(segment);

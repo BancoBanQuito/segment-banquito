@@ -15,7 +15,6 @@ public class SegmentMapper {
 
     public static SegmentRS toSegmentRS(Segment segment) {
         return SegmentRS.builder()
-                .id(segment.getId())
                 .name(segment.getName())
                 .status(segment.getStatus())
                 .build();

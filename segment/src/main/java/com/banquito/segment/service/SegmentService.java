@@ -1,64 +1,61 @@
 package com.banquito.segment.service;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.banquito.segment.controller.dto.SegmentRQ;
 import com.banquito.segment.model.Segment;
 import com.banquito.segment.repository.SegmentRepository;
-
+import com.fasterxml.jackson.core.sym.Name;
 
 @Service
 public class SegmentService {
-
+    
     private final SegmentRepository segmentRepository;
 
     public SegmentService(SegmentRepository segmentRepository) {
         this.segmentRepository = segmentRepository;
     }
 
-    public Segment findById(String id){
-        Segment opSegment = segmentRepository.findBySegmentId(id);
-        if (opSegment == null){
+    public Segment findByName(String name) {
+        Segment optSegment = this.segmentRepository.findByName(name);
+        if (optSegment == null) {
             throw new RuntimeException("Segment not found");
         }
-        return this.segmentRepository.findBySegmentId(id);
+        return this.segmentRepository.findByName(name);
     }
 
+    //buscar por Optional<Segment> findByStatus(String status)
+    public Segment findByStatus(String status) {
+        Segment optSegment = this.segmentRepository.findByStatus(status).orElseThrow(() -> new RuntimeException("Segment not found"));
+        return optSegment;
+    }
+
+    //buscar todos los segmentos
+    public Iterable<Segment> findAll() {
+        return this.segmentRepository.findAll();
+    }
+
+    //crear segmento
     @Transactional
     public void createSegment(Segment segment){
-        Optional<Segment> opSegment = segmentRepository.findBySegmentName(segment.getName());
-        if(opSegment.isPresent()){
+        Boolean segmentExists = this.segmentRepository.existsByName(segment.getName());
+        if(segmentExists){
             throw new RuntimeException("Segment already exists");
         }
         segment.setName(segment.getName());
-        segment.setStatus(false);
+        segment.setStatus(segment.getStatus());
         this.segmentRepository.save(segment);
     }
 
     @Transactional
-    public void updateSegment(String id, SegmentRQ segmentRQ){
-        Segment opSegment = segmentRepository.findBySegmentId(id);
-        if(opSegment == null){
-            throw new RuntimeException("Segment not exists");
+    public void updateSegment(String name, Segment segment) {
+        Boolean segmentExists = this.segmentRepository.existsByName(name);
+        if (segmentExists) {
+            throw new RuntimeException("Client not found");
         }
-        Segment segmentUpdate = this.segmentRepository.findBySegmentId(id);
-        segmentUpdate.setName(segmentRQ.getName());
-        segmentUpdate.setStatus(segmentRQ.getStatus());
-        this.segmentRepository.save(segmentUpdate);
+        Segment segmentToUpdate = this.segmentRepository.findByName(name);
+        segmentToUpdate.setStatus(segment.getStatus());
+        this.segmentRepository.save(segmentToUpdate);
     }
 
-    @Transactional
-    public Segment deleteSegment(Segment segment){
-        Segment opSegment = segmentRepository.findBySegmentId(segment.getId());
-        if(opSegment == null){
-            throw new RuntimeException("Segment not exists");
-        }
-        Segment segmentDelete = this.segmentRepository.findBySegmentId(segment.getId());
-        segmentDelete.setName(segment.getName());
-        segmentDelete.setStatus(false);
-        this.segmentRepository.save(segmentDelete);
-        return segmentDelete;
-    }
 }

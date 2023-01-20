@@ -10,5 +10,5 @@ import lombok.Data;
 public class SegmentRQ implements Serializable{
 
     private String name;
-    private Boolean status;
+    private String status;
 }

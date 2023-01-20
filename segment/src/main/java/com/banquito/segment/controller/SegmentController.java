@@ -63,23 +63,32 @@ public class SegmentController {
     public ResponseEntity<String> createSegmentByIdSegment(@RequestBody SegmentRQ segmentRQ) {
         try {
             this.segmentService.createSegmentByIdSegment(SegmentMapper.toSegment(segmentRQ));
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok().body("Segmento creado con éxito");
         } catch (Exception e) {
-            System.out.println(e);
-            System.out.println("hola");
-            return ResponseEntity.internalServerError().build();
+            return ResponseEntity.status(500).body(e.getMessage());
         }
     }
 
 
-    //actualizar segmento
+    //actualizar segmento el cual accedo por id
     @PutMapping(value = "/update/{name}")
     public ResponseEntity<String> updateSegment(@PathVariable("name") String name, @RequestBody SegmentRQ segmentRQ) {
         try {
             this.segmentService.updateSegment(name, SegmentMapper.toSegment(segmentRQ));
             return ResponseEntity.ok().build();
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
+            return ResponseEntity.status(500).body(e.getMessage());
+        }
+    }
+
+    //actualizar segmento el cual accedo por id
+    @PutMapping(value = "/updates/{idSegment}")
+    public ResponseEntity<String> updateSegmentByIdSegment(@PathVariable("idSegment") String idSegment, @RequestBody SegmentRQ segmentRQ) {
+        try {
+            this.segmentService.updateSegmentByIdSegment(idSegment, SegmentMapper.toSegment(segmentRQ));
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(e.getMessage());
         }
     }
 }

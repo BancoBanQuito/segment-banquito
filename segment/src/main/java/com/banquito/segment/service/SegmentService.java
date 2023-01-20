@@ -52,13 +52,29 @@ public class SegmentService {
         this.segmentRepository.save(segment);
     }
 
+    //actualizar segmento por name
     @Transactional
     public void updateSegment(String name, Segment segment) {
         Boolean segmentExists = this.segmentRepository.existsByName(name);
-        if (segmentExists) {
-            throw new RuntimeException("Client not found");
+        if (!segmentExists) {
+            throw new RuntimeException("The segment does not exist");
         }
-        Segment segmentToUpdate = this.segmentRepository.findByName(name);
+        else {
+            Segment segmentToUpdate = this.segmentRepository.findByName(name);
+            segmentToUpdate.setStatus(segment.getStatus());
+            this.segmentRepository.save(segmentToUpdate);
+            throw new RuntimeException("The segment has been created");
+        }
+    }
+
+    //actualizar segmento por idSegmento
+    @Transactional
+    public void updateSegmentByIdSegment(String idSegment, Segment segment) {
+        Boolean segmentExists = this.segmentRepository.existsByIdSegment(idSegment);
+        if (!segmentExists) {
+            throw new RuntimeException("The segment does not exist");
+        }
+        Segment segmentToUpdate = this.segmentRepository.findByIdSegment(idSegment);
         segmentToUpdate.setStatus(segment.getStatus());
         this.segmentRepository.save(segmentToUpdate);
     }

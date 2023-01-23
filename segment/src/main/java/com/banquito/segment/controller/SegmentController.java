@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,8 +20,12 @@ import com.banquito.segment.controller.mapper.SegmentMapper;
 import com.banquito.segment.model.Segment;
 import com.banquito.segment.service.SegmentService;
 
+@CrossOrigin(origins = "*", methods = { org.springframework.web.bind.annotation.RequestMethod.GET,
+    org.springframework.web.bind.annotation.RequestMethod.POST,
+    org.springframework.web.bind.annotation.RequestMethod.PUT,
+    org.springframework.web.bind.annotation.RequestMethod.DELETE })
 @RestController
-@RequestMapping("/api/segment")
+@RequestMapping("/api/segments")
 public class SegmentController {
 
     private final SegmentService segmentService;
@@ -41,7 +46,7 @@ public class SegmentController {
     } */
 
     //buscar por nombre
-    @GetMapping(value = "/{name}")
+    @GetMapping(value = "/name/{name}")
     public ResponseEntity<SegmentRS> getSegmentByName(@PathVariable("name") String name) {
         Segment segment = this.segmentService.findByName(name);
         if (segment != null) {

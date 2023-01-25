@@ -8,7 +8,6 @@ public class SegmentMapper {
     
     public static Segment toSegment(SegmentRQ segmentRQ) {
         return Segment.builder()
-                .idSegment(segmentRQ.getIdSegment())
                 .name(segmentRQ.getName())
                 .status(segmentRQ.getStatus())
                 .build();

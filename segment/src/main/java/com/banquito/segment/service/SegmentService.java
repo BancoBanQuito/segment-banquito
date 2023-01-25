@@ -1,5 +1,7 @@
 package com.banquito.segment.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,11 +44,14 @@ public class SegmentService {
 
     //crear segmento por idSegmento
     public void createSegmentByIdSegment(Segment segment){
+        List<Segment> segments = this.segmentRepository.findAll();
         Boolean segmentExists = this.segmentRepository.existsByIdSegment(segment.getIdSegment());
         if(segmentExists){
             throw new RuntimeException("Segment already exists");
         }
-        segment.setIdSegment(segment.getIdSegment());
+        String idSegment = segments.get(segments.size() - 1).getIdSegment();
+        idSegment = String.valueOf(Integer.parseInt(idSegment) + 1);
+        segment.setIdSegment(idSegment.toString());
         segment.setName(segment.getName());
         segment.setStatus(segment.getStatus());
         this.segmentRepository.save(segment);

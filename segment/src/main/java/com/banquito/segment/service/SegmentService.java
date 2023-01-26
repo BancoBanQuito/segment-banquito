@@ -25,12 +25,10 @@ public class SegmentService {
         return this.segmentRepository.findByName(name);
     }
 
-    //buscar todos los segmentos
     public Iterable<Segment> findAll() {
         return this.segmentRepository.findAll();
     }
 
-    //crear segmento
     @Transactional
     public void createSegment(Segment segment){
         Boolean segmentExists = this.segmentRepository.existsByName(segment.getName());
@@ -42,7 +40,6 @@ public class SegmentService {
         this.segmentRepository.save(segment);
     }
 
-    //crear segmento por idSegmento
     public void createSegmentByIdSegment(Segment segment){
         List<Segment> segments = this.segmentRepository.findAll();
         Boolean segmentExists = this.segmentRepository.existsByIdSegment(segment.getIdSegment());
@@ -57,7 +54,6 @@ public class SegmentService {
         this.segmentRepository.save(segment);
     }
 
-    //actualizar segmento por name
     @Transactional
     public void updateSegment(String name, Segment segment) {
         Boolean segmentExists = this.segmentRepository.existsByName(name);
@@ -72,7 +68,6 @@ public class SegmentService {
         }
     }
 
-    //actualizar segmento por idSegmento
     @Transactional
     public void updateSegmentByIdSegment(String idSegment, Segment segment) {
         Boolean segmentExists = this.segmentRepository.existsByIdSegment(idSegment);

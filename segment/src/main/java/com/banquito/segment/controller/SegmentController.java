@@ -34,18 +34,6 @@ public class SegmentController {
         this.segmentService = segmentService;
     }
 
-    //buscar por nombre
-    /* @GetMapping(value = "/{name}")
-    public ResponseEntity<SegmentRS> getSegmentByName(@PathVariable("name") String name) {
-        Segment segment = this.segmentService.findByName(name);
-        if (segment != null) {
-            return ResponseEntity.ok(SegmentMapper.toSegmentRS(segment));
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    } */
-
-    //buscar por nombre
     @GetMapping(value = "/name/{name}")
     public ResponseEntity<SegmentRS> getSegmentByName(@PathVariable("name") String name) {
         Segment segment = this.segmentService.findByName(name);
@@ -56,14 +44,12 @@ public class SegmentController {
         }
     }
 
-    //buscar todos los segmentos
     @GetMapping()
 	public ResponseEntity<List<Segment>> findAll() {
 		Iterable<Segment> segment = this.segmentService.findAll();
         return ResponseEntity.ok((List<Segment>) segment);
     }
 
-    //CREAR SEGMENTO BUSCANDO POR IDSEGMENT
     @PostMapping
     public ResponseEntity<String> createSegmentByIdSegment(@RequestBody SegmentRQ segmentRQ) {
         try {
@@ -75,7 +61,6 @@ public class SegmentController {
     }
 
 
-    //actualizar segmento el cual accedo por id
     @PutMapping(value = "/update/{name}")
     public ResponseEntity<String> updateSegment(@PathVariable("name") String name, @RequestBody SegmentRQ segmentRQ) {
         try {
@@ -86,7 +71,6 @@ public class SegmentController {
         }
     }
 
-    //actualizar segmento el cual accedo por id
     @PutMapping(value = "/updates/{idSegment}")
     public ResponseEntity<String> updateSegmentByIdSegment(@PathVariable("idSegment") String idSegment, @RequestBody SegmentRQ segmentRQ) {
         try {

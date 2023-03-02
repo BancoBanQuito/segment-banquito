@@ -40,4 +40,4 @@ jobs:
         script: |
           docker stop segment-banquito || true
           docker rm segment-banquito || true
-          docker run --rm -d --name segment-banquito -p 77:77 ${{ secrets.DOCKERHUB_USERNAME }}/segment-banquito:latest
+          docker run --rm -d --name segment-banquito -p 80:80 ${{ secrets.DOCKERHUB_USERNAME }}/segment-banquito:latest

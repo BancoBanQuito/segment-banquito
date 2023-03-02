@@ -3,8 +3,7 @@ name: Build and Test Spring Boot Project
 on:
   push:
     branches:
-      - CD-segment
-
+      - main
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -24,13 +23,13 @@ jobs:
       run: mvn package --file segment/pom.xml
 
     - name: Create docker image
-      run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/segment-banquito:${{ github.sha }} .
+      run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/segment-banquito:latest .
 
     - name: Login to Docker Hub
       run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login --username "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
     - name: Push Docker Image
-      run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/segment-banquito:${{ github.sha }}
+      run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/segment-banquito:latest
 
     - name: Connect to EC2 instance using SSH recipe
       uses: appleboy/ssh-action@master
@@ -41,4 +40,4 @@ jobs:
         script: |
           docker stop segment-banquito || true
           docker rm segment-banquito || true
-          docker run --rm -d --name segment-banquito -p 77:77 ${{ secrets.DOCKERHUB_USERNAME }}/segment-banquito:${{ github.sha }}
+          docker run --rm -d --name segment-banquito -p 77:77 ${{ secrets.DOCKERHUB_USERNAME }}/segment-banquito:latest
